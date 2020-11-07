@@ -4,6 +4,7 @@ const {
   InfoApi,
   AccountsApi,
   FaucetsApi,
+  SmartContractsApi,
   Configuration
 } = require('@stacks/blockchain-api-client');
 
@@ -15,6 +16,7 @@ const apiConfig = new Configuration({
 });
 
 const infoApi = new InfoApi(apiConfig);
+const smartContractsApi = new SmartContractsApi(apiConfig);
 
 const getAccountBalance = (principal) => {
   const api = new AccountsApi(apiConfig);
@@ -28,6 +30,7 @@ const runFaucetStx = (principal) => {
 
 module.exports = {
   infoApi,
+  smartContractsApi,
   getAccountBalance,
   runFaucetStx
 }

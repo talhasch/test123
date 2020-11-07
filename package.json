@@ -25,6 +25,7 @@
     "faucet": "node src/faucet",
     "delegate-stx": "node src/contract-call/delegate-stx.js",
     "delegate-stack-stx": "node src/contract-call/delegate-stack-stx.js",
-    "revoke-delegate-stx": "node src/contract-call/revoke-delegate-stx.js"
+    "revoke-delegate-stx": "node src/contract-call/revoke-delegate-stx.js",
+    "can-stack": "node src/can-stacks.js"
   }
 }
