@@ -5,14 +5,14 @@ const {
 
 const {ensurePrivateKey, privateKeyToWallet, formatTx} = require("../util");
 
-const {getPoxInfo} = require("../api");
+const {infoApi} = require("../api");
 
 const constants = require("../constants");
 
 const revoke = async (stxAddress, privateKey) => {
   console.log(`Address: ${stxAddress}`);
 
-  const poxInfo = await getPoxInfo();
+  const poxInfo = await infoApi.getPoxInfo();
   const [contractAddress, contractName] = poxInfo.contract_id.split('.');
   const network = constants.NETWORK
 
