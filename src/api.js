@@ -14,10 +14,7 @@ const apiConfig = new Configuration({
   basePath: constants.API_URL,
 });
 
-const getPoxInfo = () => {
-  const api = new InfoApi(apiConfig);
-  return api.getPoxInfo();
-}
+const infoApi = new InfoApi(apiConfig);
 
 const getAccountBalance = (principal) => {
   const api = new AccountsApi(apiConfig);
@@ -30,7 +27,7 @@ const runFaucetStx = (principal) => {
 }
 
 module.exports = {
-  getPoxInfo,
+  infoApi,
   getAccountBalance,
   runFaucetStx
 }
