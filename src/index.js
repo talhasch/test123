@@ -25,6 +25,9 @@ const init = async () => {
     case "balance":
       promise = require("./commands/balance");
       break;
+    case "faucet":
+      promise = require("./commands/faucet");
+      break;
   }
 
   if (!promise) {

@@ -48,16 +48,16 @@ const formatAmount = (a, suffix = "") => {
 const formatTx = (resp) => {
   if (typeof resp === "string") {
     console.log("Done 👍");
-    const txUrl = `${constants.API_URL}/extended/v1/tx/${resp}`;
+    const txId = resp.startsWith("0x") ? resp : `0x${resp}`;
+    const txUrl = `${constants.API_URL}/extended/v1/tx/${txId}`;
     console.log(txUrl);
-    const eTxUrl = `https://testnet-explorer.blockstack.org/txid/0x${resp}`;
+    const eTxUrl = `https://testnet-explorer.blockstack.org/txid/${txId}`;
     console.log(eTxUrl);
     return;
   }
 
   console.log(resp);
 }
-
 
 module.exports = {
   ensurePrivateKey, privateKeyToWallet, stxToMicroStx, microStxToStx, formatAmount, formatTx
