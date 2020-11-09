@@ -17,23 +17,12 @@
     "countdown": "^2.6.0",
     "cross-fetch": "^3.0.6",
     "inquirer": "^7.3.3",
-    "moment": "^2.29.1",
-    "moment-duration-format": "^2.3.2",
     "numeral": "^2.0.6",
     "ts-node": "^9.0.0",
-    "typescript": "^4.0.5",
-    "url-join": "^4.0.1"
+    "typescript": "^4.0.5"
   },
   "scripts": {
-    "create-wallet": "node src/create-wallet.js",
-    "balance": "node src/balance",
-    "faucet": "node src/faucet",
-    "delegate-stx": "node src/contract-call/delegate-stx.js",
-    "delegate-stack-stx": "node src/contract-call/delegate-stack-stx.js",
-    "revoke-delegate-stx": "node src/contract-call/revoke-delegate-stx.js",
-    "can-stack": "node src/can-stacks.js",
-    "stack-stx": "node src/contract-call/stack-stx.js",
-    "stacker-info": "node src/stacker-info.js",
-    "stacking-info": "node src/stacking-info.js"
+    "start": "node src/index.js"
+
   }
 }

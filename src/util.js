@@ -40,7 +40,10 @@ const microStxToStx = (microStx) => {
   return microStx / constants.STX_MULTIPLIER;
 }
 
-const formatAmount = (a) => numeral(a).format("0,.00000")
+const formatAmount = (a, suffix = "") => {
+  const formatted = numeral(a).format("0,.00000");
+  return `${formatted} ${suffix}`.trim();
+}
 
 const formatTx = (resp) => {
   if (typeof resp === "string") {

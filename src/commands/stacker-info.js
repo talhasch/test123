@@ -7,9 +7,7 @@ const {
 
 const {infoApi, smartContractsApi} = require("./api");
 
-const {ensurePrivateKey, privateKeyToWallet} = require("./util");
-
-const stackerInfo = async (stxAddress) => {
+const main = async (stxAddress, privateKey) => {
   console.log(`Address: ${stxAddress}`);
 
   const poxInfo = await infoApi.getPoxInfo();
@@ -42,12 +40,6 @@ const stackerInfo = async (stxAddress) => {
 
 }
 
-const main = async (key) => {
-  const {stxAddress} = await privateKeyToWallet(key);
-
-  return stackerInfo(stxAddress);
+module.exports = {
+  main
 }
-
-const key = ensurePrivateKey();
-
-main(key).then();
