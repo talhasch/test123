@@ -1,6 +1,6 @@
 const numeral = require("numeral");
 
-const {getAddressFromPrivateKey} = require("@blockstack/stacks-transactions");
+const {getAddressFromPrivateKey, bufferCV} = require("@blockstack/stacks-transactions");
 
 const c32 = require('c32check');
 
@@ -59,6 +59,14 @@ const formatTx = (resp) => {
   console.log(resp);
 }
 
+const deriveBtcFromStx = (stxAddress) => {
+  // derive bitcoin address from Stacks account and convert into required format
+  const hashbytes = bufferCV(Buffer.from(c32.c32addressDecode(stxAddress)[1], 'hex'));
+  const version = bufferCV(Buffer.from('01', 'hex'));
+
+  return {hashbytes, version}
+}
+
 module.exports = {
-  ensurePrivateKey, privateKeyToWallet, stxToMicroStx, microStxToStx, formatAmount, formatTx
+  ensurePrivateKey, privateKeyToWallet, stxToMicroStx, microStxToStx, formatAmount, formatTx, deriveBtcFromStx
 }

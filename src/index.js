@@ -22,6 +22,9 @@ const init = async () => {
     case "stacking-info":
       promise = require("./commands/stacking-info");
       break;
+    case "can-stack":
+      promise = require("./commands/can-stack");
+      break;
     case "balance":
       promise = require("./commands/balance");
       break;
