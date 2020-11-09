@@ -34,9 +34,7 @@ const main = async (stxAddress, privateKey) => {
       sender: stxAddress,
       arguments: [
         `0x${serializeCV(
-          tupleCV({
-            ...util.deriveBtcFromStx(stxAddress)
-          })
+          tupleCV({...util.deriveBtcFromStx(stxAddress)})
         ).toString('hex')}`,
         `0x${serializeCV(uintCV(uStxToLockup)).toString('hex')}`,
         `0x${serializeCV(uintCV(poxInfo.reward_cycle_id)).toString('hex')}`,

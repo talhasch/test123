@@ -1,34 +1,31 @@
-const inquirer = require("inquirer");
-
 const {
   makeContractCall,
   broadcastTransaction,
   uintCV,
-  tupleCV,
-  bufferCV,
-  standardPrincipalCV
+  tupleCV
 } = require('@blockstack/stacks-transactions');
-
-const c32 = require('c32check');
 
 const {infoApi} = require("../api");
 
 const constants = require("../constants");
 
-const {ensurePrivateKey, privateKeyToWallet, stxToMicroStx, formatTx} = require("../util");
+const util = require("../util");
 
-const callContract = async (stxAddress, amount, numberOfCycles, privateKey) => {
-  const uAmount = stxToMicroStx(amount);
+const api = require("../api");
 
-  console.log(`Address: ${stxAddress}`);
-  console.log(`numberOfCycles: ${numberOfCycles}`);
-  console.log(`Amount: ${amount} STX - (${uAmount} uStx)`);
+const ui = require("../ui");
 
-  // derive bitcoin address from Stacks account and convert into required format
-  const hashbytes = bufferCV(Buffer.from(c32.c32addressDecode(stxAddress)[1], 'hex'));
-  const version = bufferCV(Buffer.from('01', 'hex'));
+const {formatTx} = require("../util");
 
+const main = async (stxAddress, privateKey) => {
   const coreInfo = await infoApi.getCoreApiInfo();
+  const balance = await api.getAccountBalance(stxAddress);
+
+  const numberOfCycles = await ui.numberInput("Number of cycles:");
+  const uStxToLockup = await ui.numberInput("Amount to lockup (uSTX):", balance.stx.balance);
+  console.log(`${ui.info(`Current burn block height:`)} ${coreInfo["burn_block_height"]}`);
+  const startBurnHt = await ui.numberInput("Start burn height:", coreInfo["burn_block_height"] + 10);
+
   const poxInfo = await infoApi.getPoxInfo();
 
   const [contractAddress, contractName] = poxInfo.contract_id.split('.');
@@ -40,12 +37,9 @@ const callContract = async (stxAddress, amount, numberOfCycles, privateKey) => {
     contractName,
     functionName: 'stack-stx',
     functionArgs: [
-      uintCV(uAmount),
-      tupleCV({
-        hashbytes,
-        version,
-      }),
-      uintCV(coreInfo["burn_block_height"] + 10),
+      uintCV(uStxToLockup),
+      tupleCV({...util.deriveBtcFromStx(stxAddress)}),
+      uintCV(startBurnHt),
       uintCV(numberOfCycles)
     ],
     senderKey: privateKey,
@@ -56,29 +50,10 @@ const callContract = async (stxAddress, amount, numberOfCycles, privateKey) => {
   const transaction = await makeContractCall(txOptions);
   const resp = await broadcastTransaction(transaction, network);
 
+  console.log("\n");
+
   formatTx(resp);
 }
 
-const main = async (key) => {
-  const {stxAddress, privateKey} = await privateKeyToWallet(key);
+module.exports = main;
 
-  return inquirer.prompt([
-    {
-      type: "input",
-      message: "Amount:",
-      suffix: "(STX)",
-      name: "amount"
-    },
-    {
-      type: "input",
-      message: "Number of cycles:",
-      name: "cycles"
-    }])
-    .then(answers => {
-      return callContract(stxAddress, answers.amount, answers.cycles, privateKey);
-    });
-}
-
-const key = ensurePrivateKey();
-
-main(key).then();

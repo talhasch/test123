@@ -5,10 +5,9 @@ const {
   standardPrincipalCV
 } = require('@blockstack/stacks-transactions');
 
-const {infoApi, smartContractsApi} = require("./api");
+const {infoApi, smartContractsApi} = require("../api");
 
 const main = async (stxAddress, privateKey) => {
-  console.log(`Address: ${stxAddress}`);
 
   const poxInfo = await infoApi.getPoxInfo();
 
@@ -25,7 +24,9 @@ const main = async (stxAddress, privateKey) => {
   });
 
   const response = deserializeCV(Buffer.from(stackingInfo.result.slice(2), 'hex'));
+
   console.log(response);
+
   const data = response.value.data;
 
   console.log({
@@ -40,6 +41,4 @@ const main = async (stxAddress, privateKey) => {
 
 }
 
-module.exports = {
-  main
-}
+module.exports = main

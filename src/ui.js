@@ -28,5 +28,6 @@ module.exports = {
   label: (s) => chalk.cyan(s),
   danger: (s) => chalk.red(s),
   success: (s) => chalk.green(s),
+  info: (s) => chalk.gray(s),
   numberInput
 }
