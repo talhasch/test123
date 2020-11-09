@@ -1,3 +1,5 @@
+const numeral = require("numeral");
+
 const {getAddressFromPrivateKey} = require("@blockstack/stacks-transactions");
 
 const c32 = require('c32check');
@@ -38,6 +40,8 @@ const microStxToStx = (microStx) => {
   return microStx / constants.STX_MULTIPLIER;
 }
 
+const formatAmount = (a) => numeral(a).format("0,.00000")
+
 const formatTx = (resp) => {
   if (typeof resp === "string") {
     console.log("Done 👍");
@@ -53,5 +57,5 @@ const formatTx = (resp) => {
 
 
 module.exports = {
-  ensurePrivateKey, privateKeyToWallet, stxToMicroStx, microStxToStx, formatTx
+  ensurePrivateKey, privateKeyToWallet, stxToMicroStx, microStxToStx, formatAmount, formatTx
 }
