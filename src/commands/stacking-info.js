@@ -9,9 +9,20 @@ const {label} = require("../ui");
 const {microStxToStx, formatAmount} = require("../util");
 
 const main = async () => {
+
+  const height = 3120;
+
   const poxInfo = await infoApi.getPoxInfo();
   const coreInfo = await infoApi.getCoreApiInfo();
   const blockTimeInfo = (await infoApi.getNetworkBlockTimes())[constants.NETWORK_STR];
+
+  // block number to cycle
+  const b = (height - poxInfo.first_burnchain_block_height) / poxInfo.reward_cycle_length;
+  console.log(b);
+
+  // cycle to block num
+
+  // return
 
   // Stacking execution for next cycle
   const stackingExecution = poxInfo.rejection_votes_left_required > 0;
@@ -36,8 +47,14 @@ const main = async () => {
   const nextCycleStartingAt = new Date();
   nextCycleStartingAt.setSeconds(nextCycleStartingAt.getSeconds() + secondsToNextCycle);
   const remaining = countdown(nextCycleStartingAt).toString();
-
   console.log(`${label("Next cycle starts in:")} ${nextCycleStartingAt} (in ${remaining})`);
+
+  const nextCycleFirstBlockNum = coreInfo.burn_block_height + (secondsToNextCycle / blockTimeInfo.target_block_time);
+  if (!(nextCycleFirstBlockNum % blockTimeInfo.target_block_time === 0)) {
+    throw "nextCycleFirstBlockNum is not correct"
+  }
+  console.log(`${label("First block number of next cycle:")} ${nextCycleFirstBlockNum}`);
 }
 
 module.exports = main;
+

@@ -25,7 +25,7 @@ const getAccountBalance = (principal) => {
 
 const runFaucetStx = (principal) => {
   const api = new FaucetsApi(apiConfig);
-  return api.runFaucetStx({address: principal});
+  return api.runFaucetStx({address: principal, stacking:false});
 }
 
 module.exports = {

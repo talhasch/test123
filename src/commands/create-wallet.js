@@ -6,22 +6,28 @@ const {
 
 const c32 = require('c32check');
 
-const constants = require("./constants");
+const constants = require("../constants");
 
-const privateKey = makeRandomPrivKey();
-const strPrivateKey = privateKeyToString(privateKey);
+const main = async () => {
 
-const stxAddress = getAddressFromPrivateKey(
-  strPrivateKey,
-  constants.TRANSACTION_VERSION
-);
+  const priv = makeRandomPrivKey();
+  const strPrivateKey = privateKeyToString(priv);
 
-const btcAddress = c32.c32ToB58(stxAddress);
+  const address = getAddressFromPrivateKey(
+    strPrivateKey,
+    constants.TRANSACTION_VERSION
+  );
 
-const obj = {
-  privateKey: strPrivateKey,
-  address: stxAddress,
-  btcAddress
-}
+  const btcAddress = c32.c32ToB58(address);
 
-console.log(obj);
+  const obj = {
+    privateKey: strPrivateKey,
+    address,
+    btcAddress
+  }
+
+  console.log(obj);
+
+};
+
+module.exports = main;

@@ -37,6 +37,9 @@ const init = async () => {
     case "faucet":
       promise = require("./commands/faucet");
       break;
+    case "create-wallet":
+      promise = require("./commands/create-wallet");
+      break;
   }
 
   if (!promise) {
